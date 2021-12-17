@@ -31,7 +31,7 @@ class BLCADataset(Dataset):
         features = np.load(os.path.join(self.features_path, item_name))
         item_name_excel = item_name[:12]
         target_row = self.excel_info[self.excel_info['Case ID'] == item_name_excel]
-        target_label = target_row[feature_name]
+        target_label = np.array(target_row[feature_name])
 
         sample = {'features' : features, 'target' : target_label}
 
