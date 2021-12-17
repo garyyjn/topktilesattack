@@ -8,7 +8,7 @@ import torch
 from datasets import BLCADataset
 model = GatedAttention()
 
-data_path = ""
+data_path = "/home/ext_yao_gary_mayo_edu/CLAM/extraction_output"
 datasets = BLCADataset(data_path, 'Table_S1.2017_08_05.xlsx')
 datasize = len(datasets)
 train_p = .8
@@ -21,6 +21,6 @@ train_set, test_set, na = torch.utils.data.random_split(datasets, [train_size, t
 epoch_limit = 10
 batch_size = 1
 
-train_loader = torch.utils.data.dataloader(train_set)
-test_loader = torch.utils.data.dataloader(test_set)
+train_loader = torch.utils.data.DataLoader(train_set)
+test_loader = torch.utils.data.DataLoader(test_set)
 
