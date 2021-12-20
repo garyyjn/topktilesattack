@@ -47,7 +47,7 @@ def train_epoch(model, loader):
         if model_choice == target:
             correct_num += 1
         total_num += 1
-        print("train batch, accu: {} correct: {} total: {}".format(total_num/correct_num, correct_num, total_num))
+    print("train batch, accu: {} correct: {} total: {}".format(correct_num/total_num, correct_num, total_num))
         #print(target)
 
 
@@ -64,7 +64,7 @@ def test_epoch(model, loader):
         if model_choice == target:
             correct_num += 1
         total_num += 1
-        print("test batch, accu: {} correct: {} total: {}".format(total_num/correct_num, correct_num, total_num))
+    print("test batch, accu: {} correct: {} total: {}".format(correct_num/total_num, correct_num, total_num))
 
 for i in range(epoch_limit):
     train_epoch(model, loader=train_loader)
