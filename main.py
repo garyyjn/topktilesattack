@@ -31,8 +31,9 @@ def train_epoch(model, loader):
         features = sample_batched['features']
         target = sample_batched['target']
         manual_dict = {'Non-Papillary': 0, 'Papillary': 1, 'ND': 0}
-        target_num = manual_dict[target]
-        print(features)
+        print(features.shape)
+        print(target)
+        target_num = manual_dict[target[0]]
 
 def test_epoch(model, loader):
     pass
