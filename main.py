@@ -28,7 +28,7 @@ test_loader = torch.utils.data.DataLoader(test_set)
 loss = torch.nn.MSELoss()
 optimizer = torch.optim.SGD([
                 {'params': model.parameters()}],
-                lr=1e-2, momentum=0.9)
+                lr=1e-3, momentum=0.9)
 
 def train_epoch(model, loader):
     total_num = 0
@@ -37,19 +37,35 @@ def train_epoch(model, loader):
         model.zero_grad()
         features = sample_batched['features']
         target = sample_batched['target']
-        target = torch.nn.functional.one_hot(target, num_classes = 3).float()
-        print(target)
+        target_onehot = torch.nn.functional.one_hot(target, num_classes = 3).float()
         output = model(features[0,:,:].float())
         y_prob = output[0]
-        batch_loss = loss(y_prob, target)
+        batch_loss = loss(y_prob, target_onehot)
         batch_loss.backward()
         optimizer.step()
-        print(output)
+        model_choice = torch.argmax(y_prob)
+        if model_choice == target:
+            correct_num += 1
+        total_num += 1
+        print("train batch, accu: {} correct: {} total: {}".format(total_num/correct_num, correct_num, total_num))
         #print(target)
 
 
 def test_epoch(model, loader):
-    pass
+    total_num = 0
+    correct_num = 0
+    for i_batch, sample_batched in enumerate(loader):
+        model.zero_grad()
+        features = sample_batched['features']
+        target = sample_batched['target']
+        output = model(features[0,:,:].float())
+        y_prob = output[0]
+        model_choice = torch.argmax(y_prob)
+        if model_choice == target:
+            correct_num += 1
+        total_num += 1
+        print("test batch, accu: {} correct: {} total: {}".format(total_num/correct_num, correct_num, total_num))
 
 for i in range(epoch_limit):
     train_epoch(model, loader=train_loader)
+    test_epoch(model, loader=test_loader)
