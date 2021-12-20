@@ -37,7 +37,8 @@ def train_epoch(model, loader):
         model.zero_grad()
         features = sample_batched['features']
         target = sample_batched['target']
-        target = torch.nn.functional.one_hot(target, num_classes = 3)
+        target = torch.nn.functional.one_hot(target, num_classes = 3).float()
+        print(target)
         output = model(features[0,:,:].float())
         y_prob = output[0]
         batch_loss = loss(y_prob, target)
