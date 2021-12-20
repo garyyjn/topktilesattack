@@ -25,7 +25,7 @@ batch_size = 1
 train_loader = torch.utils.data.DataLoader(train_set)
 test_loader = torch.utils.data.DataLoader(test_set)
 
-loss = torch.nn.NLLLoss()
+loss = torch.nn.MSELoss()
 optimizer = torch.optim.SGD([
                 {'params': model.parameters()}],
                 lr=1e-2, momentum=0.9)
@@ -37,6 +37,7 @@ def train_epoch(model, loader):
         model.zero_grad()
         features = sample_batched['features']
         target = sample_batched['target']
+        target = torch.nn.functional.one_hot(target, num_classes = 3)
         output = model(features[0,:,:].float())
         batch_loss = loss(output, target)
         batch_loss.backward()
