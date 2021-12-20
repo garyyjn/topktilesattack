@@ -38,10 +38,11 @@ def train_epoch(model, loader):
         features = sample_batched['features']
         target = sample_batched['target']
         output = model(features[0,:,:].float())
-        batch_loss = loss(output, target)
+        y_prob = output[0]
+        batch_loss = loss(y_prob, target)
         batch_loss.backward()
         optimizer.step()
-        #print(output)
+        print(output)
         #print(target)
 
 
