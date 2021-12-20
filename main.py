@@ -6,6 +6,7 @@
 from models import GatedAttention
 import torch
 from datasets import BLCADataset
+import torch.optim
 model = GatedAttention()
 
 data_path = "/home/ext_yao_gary_mayo_edu/CLAM/extraction_output"
@@ -24,15 +25,25 @@ batch_size = 1
 train_loader = torch.utils.data.DataLoader(train_set)
 test_loader = torch.utils.data.DataLoader(test_set)
 
+loss = torch.nn.NLLLoss()
+optimizer = torch.optim.SGD([
+                {'params': model.parameters()}],
+                lr=1e-2, momentum=0.9)
+
 def train_epoch(model, loader):
     total_num = 0
     correct_num = 0
     for i_batch, sample_batched in enumerate(loader):
+        model.zero_grad()
         features = sample_batched['features']
         target = sample_batched['target']
         output = model(features[0,:,:].float())
-        print(output)
-        print(target)
+        batch_loss = loss(output, target)
+        batch_loss.backward()
+        optimizer.step()
+        #print(output)
+        #print(target)
+
 
 def test_epoch(model, loader):
     pass
