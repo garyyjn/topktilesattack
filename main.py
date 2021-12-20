@@ -24,5 +24,18 @@ batch_size = 1
 train_loader = torch.utils.data.DataLoader(train_set)
 test_loader = torch.utils.data.DataLoader(test_set)
 
-for batch in enumerate(train_loader):
-    print(batch)
+def train_epoch(model, loader):
+    total_num = 0
+    correct_num = 0
+    for i_batch, sample_batched in enumerate(loader):
+        features = sample_batched['features']
+        target = sample_batched['target']
+        manual_dict = {'Non-Papillary': 0, 'Papillary': 1, 'ND': 0}
+        target_num = manual_dict[target]
+        print(features)
+
+def test_epoch(model, loader):
+    pass
+
+for i in range(epoch_limit):
+    train_epoch(model, loader=train_loader)
