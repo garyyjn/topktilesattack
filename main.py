@@ -24,5 +24,5 @@ batch_size = 1
 train_loader = torch.utils.data.DataLoader(train_set)
 test_loader = torch.utils.data.DataLoader(test_set)
 
-for batch in iter(train_loader):
+for batch in enumerate(train_loader):
     print(batch)

@@ -28,12 +28,17 @@ class BLCADataset(Dataset):
             idx = idx.tolist()
 
         item_name = self.alphabetical_items[idx]
-        features = np.load(os.path.join(self.features_path, item_name))
+        features = np.load(os.path.join(self.features_path, item_name)).astype(np.float)
         item_name_excel = item_name[:12]
         target_row = self.excel_info[self.excel_info['Case ID'] == item_name_excel]
-        target_label = np.array(target_row[feature_name])
-
+        target_label = target_row[feature_name].item()
+        print(features)
+        print(target_label)
+        if(feature_name == 'Histologic subtype'):
+            manual_dict = {'Non-Papillary': 0, 'Papillary':1, 'ND':2}
+            #target_label = manual_dict[target_label]
+        
         sample = {'features' : features, 'target' : target_label}
-
+        #sample = {'features' : features}
         return sample
 
