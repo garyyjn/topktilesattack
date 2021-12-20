@@ -34,7 +34,7 @@ class BLCADataset(Dataset):
         target_label = target_row[feature_name].item()
         if(feature_name == 'Histologic subtype'):
             manual_dict = {'Non-Papillary': 0, 'Papillary':1, 'ND':2}
-            #target_label = manual_dict[target_label]
+            target_label = manual_dict[target_label]
         
         sample = {'features' : features, 'target' : target_label}
         #sample = {'features' : features}

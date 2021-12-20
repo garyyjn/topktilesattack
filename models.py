@@ -74,7 +74,7 @@ class GatedAttention(nn.Module):
         super(GatedAttention, self).__init__()
         self.L = 1024
         self.D = 128
-        self.K = 1
+        self.K = 3
 
         self.attention_V = nn.Sequential(
             nn.Linear(self.L, self.D),
@@ -103,9 +103,7 @@ class GatedAttention(nn.Module):
         M = torch.mm(A, x)  # KxL
 
         Y_prob = self.classifier(M)
-        Y_hat = torch.ge(Y_prob, 0.5).float()
-
-        return Y_prob, Y_hat, A
+        return Y_prob, A
 
     # AUXILIARY METHODS
     def calculate_classification_error(self, X, Y):
