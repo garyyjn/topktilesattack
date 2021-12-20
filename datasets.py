@@ -32,8 +32,6 @@ class BLCADataset(Dataset):
         item_name_excel = item_name[:12]
         target_row = self.excel_info[self.excel_info['Case ID'] == item_name_excel]
         target_label = target_row[feature_name].item()
-        print(features)
-        print(target_label)
         if(feature_name == 'Histologic subtype'):
             manual_dict = {'Non-Papillary': 0, 'Papillary':1, 'ND':2}
             #target_label = manual_dict[target_label]
