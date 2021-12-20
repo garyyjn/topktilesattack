@@ -74,7 +74,7 @@ class GatedAttention(nn.Module):
         super(GatedAttention, self).__init__()
         self.L = 1024
         self.D = 128
-        self.K = 3
+        self.K = 1
 
         self.attention_V = nn.Sequential(
             nn.Linear(self.L, self.D),
@@ -89,7 +89,7 @@ class GatedAttention(nn.Module):
         self.attention_weights = nn.Linear(self.D, self.K)
 
         self.classifier = nn.Sequential(
-            nn.Linear(self.L*self.K, 1),
+            nn.Linear(self.L*self.K, 3),
             nn.Sigmoid()
         )
 
