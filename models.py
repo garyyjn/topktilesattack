@@ -89,7 +89,8 @@ class GatedAttention(nn.Module):
         self.attention_weights = nn.Linear(self.D, self.K)
 
         self.classifier = nn.Sequential(
-            nn.Linear(self.L*self.K, 3),
+            nn.Linear(self.L*self.K, 50),
+            nn.Linear(50,3),
             nn.Sigmoid()
         )
 
@@ -98,11 +99,13 @@ class GatedAttention(nn.Module):
         A_V = self.attention_V(x)  # NxD
         A_U = self.attention_U(x)  # NxD
         A = self.attention_weights(A_V * A_U) # element wise multiplication # NxK
+        A = A ** 2
         A = torch.transpose(A, 1, 0)  # KxN
         A = F.softmax(A, dim=1)  # softmax over N
         M = torch.mm(A, x)  # KxL
 
         Y_prob = self.classifier(M)
+        Y_prob = F.softmax(Y_prob)
         return Y_prob, A
 
     # AUXILIARY METHODS
